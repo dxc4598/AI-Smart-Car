@@ -10,16 +10,16 @@ A Raspberry Pi car with basic functions (move, automatic obstacle avoidance.. et
 
 ## Specification
 
-1 x Raspberry Pi 4B
-1 x 18650 batteries
-4 x Driven Wheel
-4 x DC Speed Reduction Motor
-4 x Motor Bracket Package
-1 x Connection Board
-1 x Jumper Wire F/F(4)
-1 x XH-2.54-5Pin Cable
-1 x Ultrasonic Module
-1 x Camera Module (OV2640)
+1 x Raspberry Pi 4B  
+1 x 18650 batteries  
+4 x Driven Wheel  
+4 x DC Speed Reduction Motor  
+4 x Motor Bracket Package  
+1 x Connection Board  
+1 x Jumper Wire F/F(4)  
+1 x XH-2.54-5Pin Cable  
+1 x Ultrasonic Module  
+1 x Camera Module (OV2640) 
 
 
 
