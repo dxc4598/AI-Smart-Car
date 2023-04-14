@@ -1,9 +1,7 @@
-# include <ctime>
-# include <vector>
 # include <iostream>
-# include <algorithm>
 # include <unistd.h>
 # include <wiringPi.h>
+# include <sys/time.h>
 # include "Motor.h"
 # include "Servo.h"
 using namespace std;
@@ -17,6 +15,7 @@ using namespace std;
 class Ultrasonic {
     public: 
         Ultrasonic();
+        int getDistance();
         void run();
 
     private: 
@@ -24,54 +23,78 @@ class Ultrasonic {
         Servo pwmServo;
 
         int pulseIn(int, int, int);
-        int getDistance();
         void runMotor(int, int, int);
 };
 
 
 Ultrasonic::Ultrasonic(void) {
     wiringPiSetupGpio();
-    pinMode(Echo_Pin, OUTPUT);
+    pinMode(Echo_Pin, INPUT);
     pinMode(Trigger_Pin, OUTPUT);
 }
 
 
 int Ultrasonic::pulseIn(int pin, int level, int timeout) {
     int pulse_time = 0;
-    int pin_level = digitalRead(pin);
-    long t0 = time(NULL);
+    double t0, t1;
+    struct timeval tv0, tv1;
+    
+    gettimeofday(&tv0, NULL);
+    t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
+    cout << "(t0)s: " << tv0.tv_sec << endl;
+    cout << "(t0)us: " << tv0.tv_usec << endl;
 
-    while (pin_level != level) {
-        if (difftime(time(NULL), t0) > MAX_TIMEOUT * 0.000001) {
+    while (digitalRead(pin) != level) {
+        gettimeofday(&tv1, NULL);
+        t1 = tv1.tv_sec + tv1.tv_usec * 0.000001;
+        cout << "(t11)s: " << tv1.tv_sec << endl;
+        cout << "(t11)us: " << tv1.tv_usec << endl;
+        if ((t1 - t0) > MAX_TIMEOUT * 0.000001) {
             return 0;
         }
     }
 
-    t0 = time(NULL);
-    while (pin_level == level) {
-        if (difftime(time(NULL), t0) > MAX_TIMEOUT * 0.000001) {
+    gettimeofday(&tv0, NULL);
+    t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
+    while (digitalRead(pin) == level) {
+        gettimeofday(&tv1, NULL);
+        t1 = tv1.tv_sec + tv1.tv_usec * 0.000001;
+        cout << "(t12)s: " << tv1.tv_sec << endl;
+        cout << "(t12)us: " << tv1.tv_usec << endl;
+        if ((t1 - t0) > MAX_TIMEOUT * 0.000001) {
             return 0;
         }
     }
 
-    pulse_time = difftime(time(NULL), t0) * 1000000;
+    gettimeofday(&tv1, NULL);
+    t1 = tv1.tv_sec + tv1.tv_usec * 0.000001;
+    pulse_time = (t1 - t0) * 1000000;
+    cout << "pt: " << pulse_time << endl;
     return pulse_time;
 }
 
 
 int Ultrasonic::getDistance() {
-    vector<double> distance = {0.0, 0.0, 0.0, 0.0, 0.0};
+    double distance[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 
     for (int i = 0; i < 5; i++) {
         digitalWrite(Trigger_Pin, HIGH);
         usleep(10);
         digitalWrite(Trigger_Pin, LOW);
 
-        pulse_time = pulseIn(Echo_Pin, HIGH, MAX_TIMEOUT);
+        int pulse_time = pulseIn(Echo_Pin, HIGH, MAX_TIMEOUT);
         distance[i] = pulse_time * 340.0 / 2.0 / 10000.0;
     }
 
-    sort(distance.begin(), distance.end());
+    for (int i=0; i<5; i++) {
+        for (int j=i+1; j<5; j++) {
+            if (distance[j]<distance[i]) {
+                double t = distance[j];
+                distance[j] = distance[i];
+                distance[i] = t;
+            }
+        }
+    } 
     return (int) distance[2];
 }
 
