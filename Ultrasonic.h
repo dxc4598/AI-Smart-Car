@@ -1,3 +1,5 @@
+# pragma once
+
 # include <iostream>
 # include <algorithm>
 # include <unistd.h>
@@ -89,6 +91,29 @@ int Ultrasonic::getDistance() {
 }
 
 
+void Ultrasonic::setUp() {
+    int L, M, R;
+
+    for (int i = 30; i < 151; i += 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+
+        if (i == 30) {
+            L = getDistance();
+            cout << "Left Side Distance is " << L << " cm" << endl; 
+        }
+        else if (i == 90) {
+            M = getDistance();
+            cout << "Middle Side Distance is " << M << " cm" << endl; 
+        }
+        else {
+            R = getDistance();
+            cout << "Right Side Distance is " << R << " cm" << endl; 
+        }
+    }
+}
+
+
 void Ultrasonic::runMotor(int L, int M, int R) {
     if (((L < 30) && (M < 30) && (R < 30)) || M < 30 ) {
         pwm.setMotorModel(-1450, -1450, -1450, -1450);
@@ -123,26 +148,6 @@ void Ultrasonic::runMotor(int L, int M, int R) {
     }
     else {
         pwm.setMotorModel(600, 600, 600, 600);
-    }
-}
-
-
-void Ultrasonic::setRun() {
-    int L, M, R;
-
-    for (int i = 30; i < 151; i += 60) {
-        pwmServo.setServoPWM("0", i);
-        usleep(200000);
-
-        if (i == 30) {
-            L = getDistance();
-        }
-        else if (i == 90) {
-            M = getDistance();
-        }
-        else {
-            R = getDistance();
-        }
     }
 }
 
