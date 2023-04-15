@@ -1,3 +1,5 @@
+# pragma once
+
 # include <iostream>
 # include <algorithm>
 # include <unistd.h>
@@ -7,9 +9,9 @@
 # include "Servo.h"
 using namespace std;
 
-# define Echo_Pin      22
-# define Trigger_Pin   27
-# define MAX_DISTANCE  300
+# define Echo_Pin            22
+# define Trigger_Pin         27
+# define MAX_DISTANCE       300
 # define MAX_TIMEOUT   300 * 60
 
 
@@ -18,7 +20,7 @@ class Ultrasonic {
         Ultrasonic();
         
         int getDistance();
-        void run();
+        void setUp();
 
     private: 
         Motor pwm;
@@ -89,6 +91,29 @@ int Ultrasonic::getDistance() {
 }
 
 
+void Ultrasonic::setUp() {
+    int L, M, R;
+
+    for (int i = 30; i < 151; i += 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+
+        if (i == 30) {
+            L = getDistance();
+            cout << "Left Side Distance is " << L << " cm" << endl; 
+        }
+        else if (i == 90) {
+            M = getDistance();
+            cout << "Middle Side Distance is " << M << " cm" << endl; 
+        }
+        else {
+            R = getDistance();
+            cout << "Right Side Distance is " << R << " cm" << endl; 
+        }
+    }
+}
+
+
 void Ultrasonic::runMotor(int L, int M, int R) {
     if (((L < 30) && (M < 30) && (R < 30)) || M < 30 ) {
         pwm.setMotorModel(-1450, -1450, -1450, -1450);
@@ -130,6 +155,23 @@ void Ultrasonic::runMotor(int L, int M, int R) {
 void Ultrasonic::run() {
     int L, M, R;
 
+    for (int i = 90; i > 29; i -= 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+        
+        if (i == 30) {
+            L = getDistance();
+        }
+        else if (i == 90) {
+            M = getDistance();
+        }
+        else {
+            R = getDistance();
+        }
+        
+        runMotor(L, M, R);
+    }
+
     for (int i = 30; i < 151; i += 60) {
         pwmServo.setServoPWM("0", i);
         usleep(200000);
@@ -143,43 +185,7 @@ void Ultrasonic::run() {
         else {
             R = getDistance();
         }
-
+        
         runMotor(L, M, R);
-    }
-
-    while (true) {
-        for (int i = 90; i < 30; i -= 60) {
-            pwmServo.setServoPWM("0", i);
-            usleep(200000);
-
-            if (i == 30) {
-                L = getDistance();
-            }
-            else if (i == 90) {
-                M = getDistance();
-            }
-            else {
-                R = getDistance();
-            }
-
-            runMotor(L, M, R);
-        }
-
-        for (int i = 30; i < 151; i += 60) {
-            pwmServo.setServoPWM("0", i);
-            usleep(200000);
-
-            if (i == 30) {
-                L = getDistance();
-            }
-            else if (i == 90) {
-                M = getDistance();
-            }
-            else {
-                R = getDistance();
-            }
-
-            runMotor(L, M, R);
-        }
     }
 }
