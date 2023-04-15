@@ -9,9 +9,9 @@
 # include "Servo.h"
 using namespace std;
 
-# define Echo_Pin      22
-# define Trigger_Pin   27
-# define MAX_DISTANCE  300
+# define Echo_Pin            22
+# define Trigger_Pin         27
+# define MAX_DISTANCE       300
 # define MAX_TIMEOUT   300 * 60
 
 
@@ -20,7 +20,7 @@ class Ultrasonic {
         Ultrasonic();
         
         int getDistance();
-        void setRun();
+        void setUp();
 
     private: 
         Motor pwm;
