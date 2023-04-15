@@ -18,7 +18,7 @@ class Ultrasonic {
         Ultrasonic();
         
         int getDistance();
-        void run();
+        void setRun();
 
     private: 
         Motor pwm;
@@ -127,7 +127,7 @@ void Ultrasonic::runMotor(int L, int M, int R) {
 }
 
 
-void Ultrasonic::run() {
+void Ultrasonic::setRun() {
     int L, M, R;
 
     for (int i = 30; i < 151; i += 60) {
@@ -143,43 +143,44 @@ void Ultrasonic::run() {
         else {
             R = getDistance();
         }
+    }
+}
 
+
+void Ultrasonic::run() {
+    int L, M, R;
+
+    for (int i = 90; i > 29; i -= 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+        
+        if (i == 30) {
+            L = getDistance();
+        }
+        else if (i == 90) {
+            M = getDistance();
+        }
+        else {
+            R = getDistance();
+        }
+        
         runMotor(L, M, R);
     }
 
-    while (true) {
-        for (int i = 90; i < 30; i -= 60) {
-            pwmServo.setServoPWM("0", i);
-            usleep(200000);
+    for (int i = 30; i < 151; i += 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
 
-            if (i == 30) {
-                L = getDistance();
-            }
-            else if (i == 90) {
-                M = getDistance();
-            }
-            else {
-                R = getDistance();
-            }
-
-            runMotor(L, M, R);
+        if (i == 30) {
+            L = getDistance();
         }
-
-        for (int i = 30; i < 151; i += 60) {
-            pwmServo.setServoPWM("0", i);
-            usleep(200000);
-
-            if (i == 30) {
-                L = getDistance();
-            }
-            else if (i == 90) {
-                M = getDistance();
-            }
-            else {
-                R = getDistance();
-            }
-
-            runMotor(L, M, R);
+        else if (i == 90) {
+            M = getDistance();
         }
+        else {
+            R = getDistance();
+        }
+        
+        runMotor(L, M, R);
     }
 }
