@@ -25,7 +25,7 @@ Our theme is smart cars, which use C++as the main programming language to write 
 
 ## 4. Experiments and Testing
 #### 4.1. obstacle avoidance
-![obstacle avoidance]()
+![obstacle avoidance](sample-images/s-l1600.jpg)
 Place the car on a designated route, place some obstacles along the route, and control the car to follow the route. It can be observed that the car can scan for obstacles and avoid them while driving. At the same time, it can also be set to drive left and automatically avoid obstacles.
 
 #### 4.2. obstacle scanning
