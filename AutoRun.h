@@ -6,9 +6,9 @@
 # include "Ultrasonic.h"
 using namespace std;
 
-# define Servo_Min      30
+# define Servo_Min      5
 # define Servo_Max      90
-# define Min_Distance   50
+# define Min_Distance   25
 # define Max_Distance  200
 
 
@@ -16,14 +16,18 @@ class AutoRun {
     public: 
         AutoRun();
 
-        void stop()
+        void stop();
         void goStraight(int);
         void turnLeft();
         void turnRight();
-        void setServo();
+        void runServo();
+        void setUp();
+        void makeNoise(int);
+        void checkDistance();
 
     private: 
-        int L, M, R;
+        int L, M;
+        int R = 75;
 
         Motor pwm;
         Servo pwmServo;
@@ -32,7 +36,7 @@ class AutoRun {
 };
 
 
-AutoRun::AutoRun() {
+AutoRun::AutoRun(void) {
 }
 
 
@@ -49,16 +53,18 @@ void AutoRun::goStraight(int time) {
 
     gettimeofday(&tv0, NULL);
     t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
+    
     while (true) {
         runServo();
-        pwm.setMotorModel(1200, 1200, 1200, 1200);
-
+        checkDistance();
+        
         gettimeofday(&tv1, NULL);
         t1 = tv1.tv_sec + tv1.tv_usec * 0.000001;
         if ((t1 - t0) > time * 0.000001) {
             stop();
             break;
         }
+    }
 }
 
 
@@ -74,18 +80,20 @@ void AutoRun::turnRight() {
     makeNoise(500000);
     pwm.setMotorModel(2000, 2000, -1500, -1500);
     sleep(1);
+    stop();
 }
 
 
 void AutoRun::runServo() {
-    for (int i = Servo_Min; i <= Servo_Max; i++) {
-        pwm.setServoPWM("0", i);
-        usleep(10000);
-    }
-    for (int i = Servo_Max; i >= Servo_Min; i--) {
-        pwm.setServoPWM("0", i);
-        usleep(10000);
-    }
+    pwmServo.setServoPWM("0", Servo_Min);
+    L = ultrasonic.getDistance();
+    usleep(200000);
+
+    pwmServo.setServoPWM("0", Servo_Max);
+    M = ultrasonic.getDistance();
+    usleep(200000);
+    
+    
 }
 
 
@@ -98,12 +106,14 @@ void AutoRun::makeNoise(int noise_time) {
 
 void AutoRun::setUp() {
     ultrasonic.setUp();
-    checkDistance();
     makeNoise(500000);
 }
 
 
 void AutoRun::checkDistance() {
+    cout << "L is " << L << endl;
+    cout << "M is " << M << endl;
+    
     if (L < Min_Distance) {
         cout << "Left Side is too Close." << endl;
         stop();
@@ -116,4 +126,5 @@ void AutoRun::checkDistance() {
         cout << "Right Side is too Close." << endl;
         stop();
     }
+    else pwm.setMotorModel(600, 600, 600, 600);
 }
