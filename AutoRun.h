@@ -25,7 +25,8 @@ class AutoRun {
         void checkDistance();
 
     private: 
-        int L = 100, M = 100, R = 100, stopCount = 0;
+        int L, M, R;
+        float stopCount;
         bool isRunning = true;
         
         Motor pwm;
@@ -39,16 +40,7 @@ void AutoRun::stop() {
     pwm.setMotorModel(0, 0, 0, 0);
     pwmServo.setServoPWM("0", 90);
     sleep(1);
-    
-    while (true) {
-        if (!isRunning) {
-            stopCount += 1;
-        }
-        else {
-            stopCount = 0;
-            break;
-        }
-    }
+    stopCount += 1;
 }
 
 
@@ -56,6 +48,7 @@ void AutoRun::goStraight(int utime) {
     double t0, t1;
     struct timeval tv0, tv1;
 
+    stopCount = 0;
     gettimeofday(&tv0, NULL);
     t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
     while (true) {
@@ -96,7 +89,6 @@ void AutoRun::runServo() {
     M = ultrasonic.getDistance();
     usleep(200000);
     
-    
 }
 
 
@@ -136,28 +128,14 @@ void AutoRun::setUp() {
 
 void AutoRun::checkDistance() {
     if (M < Min_Distance) {
-        isRunning = false;
         stop();
         cout << "Middle Side is too Close." << endl;
     }
     else if (L < Min_Distance) {
-        isRunning = false;
-        stop();
-        cout << "Left Side is too Close." << endl;
-    }
-    else if (R < Min_Distance) {
-        isRunning = false;
-        stop();
-        cout << "Right Side is too Close." << endl;
-    }
-    else if (L < (Min_Distance - 10)) {
         pwm.setMotorModel(2000, 2000, -500, -500);
-
-        if (L < (Min_Distance - 20)) {
-            pwm.setMotorModel(1500, 1500, -1000, -1000);
-        }
+        stopCount += 0.1;
     }
-    else if (L > (Max_Distance)) {
+    else if (L > Max_Distance) {
         pwm.setMotorModel(-500, -500, 2000, 2000);
     }
     else {
