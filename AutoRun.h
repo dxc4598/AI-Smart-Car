@@ -133,11 +133,19 @@ void AutoRun::checkDistance() {
     }
     else if (L < Min_Distance) {
         pwm.setMotorModel(2000, 2000, -500, -500);
-        stopCount += 0.1;
+        usleep(200000);
+        pwm.setMotorModel(-500, -500, 2000, 2000);
+        usleep(200000);
+        stopCount += 0.2;
     }
     else if (L > Max_Distance) {
         pwm.setMotorModel(-500, -500, 2000, 2000);
+        usleep(200000);
+        pwm.setMotorModel(2000, 2000, -500, -500);
+        usleep(200000);
+        stopCount += 0.2;
     }
     else {
         pwm.setMotorModel(600, 600, 600, 600);
+    }
 }
