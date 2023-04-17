@@ -50,3 +50,4 @@ void Servo::setServoPWM(string channel, double angle, int error=10) {
 		pwmServo.setServoPulse(15, 500 + temp);
 	}
 }
+

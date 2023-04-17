@@ -1,3 +1,4 @@
+# include <cstdlib>
 # include <iostream>
 # include <signal.h>
 # include <unistd.h>
@@ -9,7 +10,6 @@ void stopTesting();
 void catchSIGINT(int);
 
 Servo pwm;
-bool stop = false;
 
 
 int main() {
@@ -18,11 +18,6 @@ int main() {
 	
 	while (true) {
 		test();
-		
-		if (stop) {
-			stopTesting();
-			break;
-		}
 	}
 	
 	return 0;
@@ -50,16 +45,18 @@ void test() {
 
 
 void stopTesting() {
+	cout << "Servo.h Stop Testing." << endl;
 	pwm.setServoPWM("0", 90);
 	pwm.setServoPWM("1", 90);
-	cout << "Servo.h Stop Testing." << endl;
+	
+	exit(EXIT_SUCCESS);
 }
 
 
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c has been pressed." << endl;
-		stop = true;
+		cout << "Ctrl + c Pressed." << endl;
+		stopTesting();
 	}
 }
-            
+
