@@ -10,11 +10,11 @@
 <br/>
 <p align="center">
 
-[<img src="https://github.com/dxc4598/AI-Smart-Car/blob/main/sample-images/youtube.png?raw=true">](https://www.youtube.com/@binlou)
-[<img src="https://github.com/dxc4598/AI-Smart-Car/blob/main/sample-images/tiktok.png?raw=true">](https://www.tiktok.com/@binlou60?lang=en)
-[<img src="https://github.com/dxc4598/AI-Smart-Car/blob/main/sample-images/twitter.png?raw=true">](https://twitter.com/loubin93)
-[<img src="https://github.com/dxc4598/AI-Smart-Car/blob/main/sample-images/instagram.png?raw=true">](https://instagram.com/loubin932023?igshid=YmMyMTA2M2Y=)
-[<img src="https://github.com/dxc4598/AI-Smart-Car/blob/main/sample-images/facebook.png?raw=true">](https://www.facebook.com/profile.php?id=100091780276237)
+[<img src="https://raw.githubusercontent.com/dxc4598/AI-Smart-Car/Documentation/sample-images/youtube.png">](https://www.youtube.com/@binlou)
+[<img src="https://raw.githubusercontent.com/dxc4598/AI-Smart-Car/Documentation/sample-images/tiktok.png">](https://www.tiktok.com/@binlou60?lang=en)
+[<img src="https://raw.githubusercontent.com/dxc4598/AI-Smart-Car/Documentation/sample-images/twitter.png">](https://twitter.com/loubin93)
+[<img src="https://raw.githubusercontent.com/dxc4598/AI-Smart-Car/Documentation/sample-images/instagram.png">](https://instagram.com/loubin932023?igshid=YmMyMTA2M2Y=)
+[<img src="https://raw.githubusercontent.com/dxc4598/AI-Smart-Car/Documentation/sample-images/facebook.png">](https://www.facebook.com/profile.php?id=100091780276237)
 </p>
 
 ## 1. Project Description
@@ -31,7 +31,7 @@ Our theme is smart cars, which use C++as the main programming language to write 
 #### 3.1. Basic movements
 <p align="center">
 
-![basic movements](sample-images/mobility.png)
+ ![basic movements](sample-images/mobility.png)
 </p>
 <br/>
 Use the testing program to move the car forward, backward, and rotate it 90 degrees left and right respectively.
@@ -39,7 +39,7 @@ Use the testing program to move the car forward, backward, and rotate it 90 degr
 #### 3.2. Obstacle avoidance
 <p align="center">
 
-![obstacle avoidance](sample-images/obstacle.png)
+ ![obstacle avoidance](sample-images/obstacle.png)
 </p>
 <br/>
 Place the car on the designated route, place some obstacles along the route, and control the car to travel along the route. It can be observed that the car scans the objects in front of it through a servo motor driven ultrasonic sensor while driving, and avoids obstacles during the process, allowing the car to travel safely.
@@ -47,7 +47,7 @@ Place the car on the designated route, place some obstacles along the route, and
 #### 3.3. Distance tracking
 <p align="center">
 
-![Distance tracking](sample-images/distance.png)
+ ![Distance tracking](sample-images/distance.png)
 </p>
 <br/>
 During the driving process of the vehicle, the sensor will first sense the distance between one side of the wall and maintain it within the set distance. When there is a lane intrusion obstacle, the car can avoid it and still maintain the distance. When the obstacle disappears, the car will also remain the same as before. At the same time, when an unavoidable obstacle appears in front of the car, the car will stop.
@@ -55,14 +55,14 @@ During the driving process of the vehicle, the sensor will first sense the dista
 #### 3.4. Ultrasonic sensor
 <p align="center">
 
-![ultrasonic sensor](sample-images/ultrasonic.png)
+ ![ultrasonic sensor](sample-images/ultrasonic.png)
 <br/>
 Ultrasonic sensors can measure the distance between objects in front and vehicles. In the experimental video, we can measure the precise distance by placing our hand in front of the sensor.
 
 #### 3.5. Servo motors
 <p align="center">
 
-![servo motors](sample-images/servo.png)
+ ![servo motors](sample-images/servo.png)
 <br/>
 In our smart car, the ultrasonic sensor is dynamically controlled by two servo motors. Once we create a coordinate system for the vehicle, we can better write motor drive strategies. The two motors rotate along the z-axis and x-axis respectively, allowing the ultrasonic sensor to scan objects in front of the vehicle.
 
