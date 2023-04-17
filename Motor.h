@@ -25,7 +25,7 @@ Motor::Motor() {
     pwm.setPWMFreq(50);
 }
 
-
+// Set duty limit
 void Motor::setDutyRange(int duty1, int duty2, int duty3, int duty4) {
 	if (duty1 > 4095) {
 		duty1 = 4095;
@@ -56,7 +56,7 @@ void Motor::setDutyRange(int duty1, int duty2, int duty3, int duty4) {
 	}
 }
 
-
+// Drive the wheel
 void Motor::setLeftUpperWheel(int duty) {
 	if (duty > 0) {
 		pwm.setMotorPWM(0, 0);
@@ -122,7 +122,7 @@ void Motor::setRightLowerWheel(int duty) {
 
 
 void Motor::setMotorModel(int duty1, int duty2, int duty3, int duty4) {
-	setDutyRange(duty1, duty2, duty3, duty4);
+// 	setDutyRange(duty1, duty2, duty3, duty4);
 	
     setLeftUpperWheel(-duty1);
     setLeftLowerWheel(-duty2);

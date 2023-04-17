@@ -1,3 +1,4 @@
+// test servo module
 # include <cstdlib>
 # include <iostream>
 # include <signal.h>
@@ -25,6 +26,7 @@ int main() {
 
 
 void test() {
+  // move left and right
 	for (int i = 50; i < 110; i++) {
 		pwm.setServoPWM("0", i);
 		usleep(10000);
@@ -33,6 +35,7 @@ void test() {
 		pwm.setServoPWM("0", i);
 		usleep(10000);
 	}
+	// move up and down
 	for (int i = 80; i < 150; i++) {
 		pwm.setServoPWM("1", i);
 		usleep(10000);

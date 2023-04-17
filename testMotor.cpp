@@ -1,3 +1,4 @@
+// test motor module
 # include <cstdlib>
 # include <iostream>
 # include <signal.h>

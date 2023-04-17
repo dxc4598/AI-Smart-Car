@@ -1,3 +1,4 @@
+// Raspi PCA9685 16-Channel PWM Servo Driver
 # pragma once
 
 # include <cmath>
@@ -14,6 +15,7 @@ extern "C" {
 }
 using namespace std;
 
+// Registers
 # define __MODE1         0x00
 # define __LED0_ON_L     0x06
 # define __LED0_ON_H     0x07
@@ -78,19 +80,19 @@ void PCA9685::checkFile() {
 	}
 }
 
-
+// Write an 8-bit value to the specified register/address
 void PCA9685::write(int reg, int value) {
 	i2c_smbus_write_byte_data(file, reg, value);
 }
 
-
+// Read an unsigned byte from the I2C device
 int PCA9685::read(int reg) {
 	int result = i2c_smbus_read_byte_data(file, reg);
 	
 	return result;
 }
 
-
+// Set the PWM frequency
 void PCA9685::setPWMFreq(int freq) {
 	int prescale = 0;
 	int old_mode = read(__MODE1);
@@ -109,7 +111,7 @@ void PCA9685::setPWMFreq(int freq) {
     write(__MODE1, old_mode | 0x80);
 }
 
-
+// Set a single PWM channel
 void PCA9685::setPWM(int channel, int on, int off) {
 	write(__LED0_ON_L + 4 * channel, on & 0xFF);
 	write(__LED0_ON_H + 4 * channel, on >> 8);
@@ -122,10 +124,9 @@ void PCA9685::setMotorPWM(int channel, int duty) {
 	setPWM(channel, 0, duty);
 }
 
-
+// Set the Servo Pulse, The PWM frequency must be 50HZ
 void PCA9685::setServoPulse(int channel, int pulse) {
 	int newPulse = (int) pulse * 4096 / 20000;
 	
 	setPWM(channel, 0, newPulse);
 }
-

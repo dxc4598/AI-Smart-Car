@@ -1,3 +1,4 @@
+// test the buzzer module
 # include <cstdlib>
 # include <iostream>
 # include <signal.h>

@@ -1,6 +1,8 @@
+// read route from directions.txt, calcute the running time and execute
 # include <string>
 # include <fstream>
 # include <cstdlib>
+# include <signal.h>
 # include <iostream>
 # include <unistd.h>
 # include "AutoRun.h"
@@ -11,10 +13,13 @@ void stopTesting();
 void catchSIGINT(int);
 
 AutoRun autoRun;
+bool stop = false;
 
 
 int main() {
 	string instruction;
+	
+	signal(SIGINT, catchSIGINT);
 	ifstream file ("direction.txt");
 	autoRun.setUp();
 	
@@ -65,7 +70,7 @@ void stopTesting() {
 	exit(EXIT_SUCCESS);
 }
 
-
+// if Ctrl + c has been pressed
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
 		cout << "Ctrl + c Pressed." << endl;

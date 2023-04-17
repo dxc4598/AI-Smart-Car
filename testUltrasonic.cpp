@@ -4,6 +4,7 @@
 # include "Motor.h"
 # include "Servo.h"
 # include "Ultrasonic.h"
+// test obstacle avoidance module
 using namespace std;
 
 void testRun();

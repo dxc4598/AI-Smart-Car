@@ -1,3 +1,4 @@
+// Use two servo to control the ultrasonic
 # pragma once
 
 # include <string>
@@ -14,7 +15,7 @@ class Servo {
 		PCA9685 pwmServo;
 };
 
-
+// Setup servo
 Servo::Servo(void) {
 	pwmServo.setPWMFreq(50);
 	pwmServo.setServoPulse(8, 1500);

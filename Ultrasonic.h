@@ -11,7 +11,10 @@ using namespace std;
 
 # define Echo_Pin            22
 # define Trigger_Pin         27
+
+// define the maximum measuring distance, unit: cm
 # define MAX_DISTANCE       300
+// calculate timeout according to the maximum measuring distance
 # define MAX_TIMEOUT   300 * 60
 
 
@@ -38,7 +41,7 @@ Ultrasonic::Ultrasonic(void) {
     pinMode(Trigger_Pin, OUTPUT);
 }
 
-
+// obtain pulse time of a pin under MAX_TIMEOUT
 int Ultrasonic::pulseIn(int pin, int level, int timeout) {
     int pulse_time = 0;
     double t0, t1;
@@ -73,16 +76,19 @@ int Ultrasonic::pulseIn(int pin, int level, int timeout) {
     return pulse_time;
 }
 
-
+// get the measurement results of ultrasonic module, with unit: cm
 int Ultrasonic::getDistance() {
     double distance[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
 	
     for (int i = 0; i < 5; i++) {
+        // make trigger_pin output 10us HIGH level
         digitalWrite(Trigger_Pin, HIGH);
         usleep(10);
         digitalWrite(Trigger_Pin, LOW);
-		
+        
+        // read pulse time of echo_pin
         int pulse_time = pulseIn(Echo_Pin, HIGH, MAX_TIMEOUT);
+        // calculate distance with sound speed 340m/s
         distance[i] = pulse_time * 340.0 / 2.0 / 10000.0;
     }
 	
@@ -113,7 +119,7 @@ void Ultrasonic::setUp() {
     }
 }
 
-
+// obstacle avoidance module
 void Ultrasonic::runMotor(int L, int M, int R) {
     if (((L < 30) && (M < 30) && (R < 30)) || M < 30 ) {
         pwm.setMotorModel(-1450, -1450, -1450, -1450);
@@ -151,7 +157,7 @@ void Ultrasonic::runMotor(int L, int M, int R) {
     }
 }
 
-
+// obstacle avoidance module
 void Ultrasonic::run() {
     int L, M, R;
 	

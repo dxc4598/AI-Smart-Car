@@ -1,3 +1,4 @@
+// test if the smbus for i2c works
 #include <cstdio>
 
 extern "C" {
