@@ -15,17 +15,10 @@ extern "C" {
 using namespace std;
 
 # define __MODE1         0x00
-# define __SUBADR1       0x02
-# define __SUBADR2       0x03
-# define __SUBADR3       0x04
 # define __LED0_ON_L     0x06
 # define __LED0_ON_H     0x07
 # define __LED0_OFF_L    0x08
 # define __LED0_OFF_H    0x09
-# define __ALLLED_ON_L   0xFA
-# define __ALLLED_ON_H   0xFB
-# define __ALLLED_OFF_L  0xFC
-# define __ALLLED_OFF_H  0xFD
 # define __PRESCALE      0xFE
 
 
@@ -48,11 +41,10 @@ class PCA9685 {
     	
     	void getFile();
     	void checkFile();
-
 };
 
 
-PCA9685::PCA9685(void) {
+PCA9685::PCA9685() {
     getFile();
     checkFile();
     
