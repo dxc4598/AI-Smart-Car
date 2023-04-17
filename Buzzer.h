@@ -9,13 +9,13 @@ using namespace std;
 
 
 class Buzzer {
-	  public: 
-        Buzzer();
-        void makeSound(string);
+	public: 
+    	Buzzer();
+    	void makeSound(string);
 };
 
 
-Buzzer::Buzzer(void) {
+Buzzer::Buzzer() {
     wiringPiSetupGpio();
     pinMode(Buzzer_Pin, OUTPUT);
 }
@@ -32,3 +32,4 @@ void Buzzer::makeSound(string command) {
         cout << "Invalid Command." << endl;
     }
 }
+

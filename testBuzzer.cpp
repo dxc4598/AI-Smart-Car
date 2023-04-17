@@ -1,3 +1,4 @@
+# include <cstdlib>
 # include <iostream>
 # include <signal.h>
 # include <unistd.h>
@@ -9,17 +10,11 @@ void stopTesting();
 void catchSIGINT(int);
 
 Buzzer buzzer;
-bool stop = false;
 
 
 int main() {
 	signal(SIGINT, catchSIGINT);
 	test();
-		
-	if (stop) {
-		stopTesting();
-		exit(EXIT_SUCCESS);
-	}
 	
 	return 0;
 }
@@ -39,15 +34,17 @@ void test() {
 
 
 void stopTesting() {
-	buzzer.makeSound("0");
 	cout << "Servo.h Stop Testing." << endl;
+	buzzer.makeSound("0");
+	
+	exit(EXIT_SUCCESS);
 }
 
 
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c has been pressed." << endl;
-		stop = true;
+		cout << "Ctrl + c Pressed." << endl;
+		stopTesting();
 	}
 }
-            
+
