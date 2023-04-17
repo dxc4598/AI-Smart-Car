@@ -1,5 +1,6 @@
 # include <string>
 # include <fstream>
+# include <cstdlib>
 # include <iostream>
 # include <unistd.h>
 # include "AutoRun.h"
@@ -10,7 +11,7 @@ void stopTesting();
 void catchSIGINT(int);
 
 AutoRun autoRun;
-bool stop = false;
+
 
 int main() {
 	string instruction;
@@ -58,15 +59,17 @@ int main() {
 
 
 void stopTesting() {
-	autoRun.stop();
 	cout << "AutoRun.h Stop Testing." << endl;
+	autoRun.stop();
+	
+	exit(EXIT_SUCCESS);
 }
 
 
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c has been pressed." << endl;
-		stop = true;
+		cout << "Ctrl + c Pressed." << endl;
+		stopTesting();
 	}
 }
 
