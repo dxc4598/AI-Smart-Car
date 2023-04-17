@@ -29,6 +29,7 @@ class Ultrasonic {
     private: 
         Motor pwm;
         Servo pwmServo;
+        int L, M, R;
 	
         int pulseIn(int, int, int);
         void runMotor(int, int, int);
@@ -98,8 +99,6 @@ int Ultrasonic::getDistance() {
 
 
 void Ultrasonic::setUp() {
-    int L, M, R;
-	
     for (int i = 30; i < 151; i += 60) {
         pwmServo.setServoPWM("0", i);
         usleep(200000);
@@ -159,8 +158,6 @@ void Ultrasonic::runMotor(int L, int M, int R) {
 
 // obstacle avoidance module
 void Ultrasonic::run() {
-    int L, M, R;
-	
     for (int i = 90; i > 29; i -= 60) {
         pwmServo.setServoPWM("0", i);
         usleep(200000);
@@ -178,7 +175,7 @@ void Ultrasonic::run() {
         runMotor(L, M, R);
     }
 		
-    for (int i = 30; i < 151; i += 60) {
+    for (int i = 90; i < 151; i += 60) {
         pwmServo.setServoPWM("0", i);
         usleep(200000);
 		

@@ -22,8 +22,8 @@ class AutoRun {
         void turnRight();
         void makeNoise(int);
         void setUp();
-        void runServo(double);
-        void checkDistance(double);
+        void runServo(double, int);
+        void checkDistance(double, int);
 	
     private: 
         int L, M, R;
@@ -54,9 +54,9 @@ void AutoRun::goStraight(int utime) {
     t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
     
 //  thread1: Control the servo to detect distances.
-    thread thread1(&AutoRun::runServo, this, t0);        
+    thread thread1(&AutoRun::runServo, this, t0, utime);        
 //  thread2: Control the motor by using the data got from the servo.
-    thread thread2(&AutoRun::checkDistance, this, t0);    
+    thread thread2(&AutoRun::checkDistance, this, t0, utime);    
 	
     thread1.join();
     thread2.join();
@@ -113,7 +113,7 @@ void AutoRun::setUp() {
 }
 
 // run the ultrasonic
-void AutoRun::runServo(double t0) {
+void AutoRun::runServo(double t0, int utime) {
     double t1;
     struct timeval tv1;
 	
@@ -142,7 +142,7 @@ void AutoRun::runServo(double t0) {
 }
 
 // run the motor
-void AutoRun::checkDistance(double t0) {
+void AutoRun::checkDistance(double t0, int utime) {
     double t1;
     struct timeval tv1;
 	
