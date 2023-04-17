@@ -21,7 +21,7 @@ class Motor {
 };
 
 
-Motor::Motor(void) {
+Motor::Motor() {
     pwm.setPWMFreq(50);
 }
 

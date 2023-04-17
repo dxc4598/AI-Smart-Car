@@ -1,3 +1,4 @@
+# include <cstdlib>
 # include <iostream>
 # include <signal.h>
 # include <unistd.h>
@@ -9,17 +10,11 @@ void stopTesting();
 void catchSIGINT(int);
 
 Motor pwm;
-bool stop = false;
 
 
 int main() {
 	signal(SIGINT, catchSIGINT);
 	test();
-		
-	if (stop) {
-		stopTesting();
-		exit(EXIT_SUCCESS);
-	}
 	
 	return 0;
 }
@@ -49,15 +44,17 @@ void test() {
 
 
 void stopTesting() {
-	pwm.setMotorModel(0, 0, 0, 0);                     /* Stop */
 	cout << "Motor.h Stop Testing." << endl;
+	pwm.setMotorModel(0, 0, 0, 0);                     /* Stop */
+	
+	exit(EXIT_SUCCESS);
 }
 
 
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c has been pressed." << endl;
-		stop = true;
+		cout << "Ctrl + c Pressed." << endl;
+		stopTesting();
 	}
 }
 
