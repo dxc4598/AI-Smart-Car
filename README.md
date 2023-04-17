@@ -179,12 +179,12 @@ In addition, we also considered the situation of lane intrusion. When vehicles o
 4. Raspberry Pi OS
 
 ## 7. project contributors
-| NAME | GUID |
-| :----: | :----: |
-| Qiushi Feng | 2785563F |
-| Chung-Chun Kao | 2721714K |
-| Bin Lou | 2785471L |
-| Chen Che | 2729749C |
+| NAME | GUID | GITHUB |
+| :----: | :----: | :----: |
+| Qiushi Feng | 2785563F | https://github.com/dxc4598 |
+| Chung-Chun Kao | 2721714K | https://github.com/DicksonKao |
+| Bin Lou | 2785471L |  |
+| Chen Che | 2729749C |  |
 <br/>
 
 **Real-Time Embedded Programming Course Work**
