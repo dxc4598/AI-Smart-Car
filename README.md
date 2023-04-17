@@ -101,6 +101,20 @@ g++ testAutoRun.cpp -li2c -lwiringPi -lpthread -o autorun.out
 <br/>
 Ultrasonic sensors can measure the distance between objects in front and vehicles. In the experimental video, we can measure the precise distance by placing our hand in front of the sensor.
 
+```
+# g++ for test
+gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
+
+# cd to workscape
+cd ./AI-Smart-Car
+
+# write code
+g++ testDistance.cpp -li2c -lwiringPi -o distance.out
+
+# run testDistance
+./distance.out
+```
+
 #### 3.5. Servo motors
 <p align="center">
 
