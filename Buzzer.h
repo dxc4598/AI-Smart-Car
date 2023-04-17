@@ -10,26 +10,26 @@ using namespace std;
 
 class Buzzer {
 	public: 
-		Buzzer();
-		void makeSound(string);
+    	Buzzer();
+    	void makeSound(string);
 };
 
 
-Buzzer::Buzzer(void) {
-	wiringPiSetupGpio();
+Buzzer::Buzzer() {
+    wiringPiSetupGpio();
     pinMode(Buzzer_Pin, OUTPUT);
 }
 
 
 void Buzzer::makeSound(string command) {
-	if (command == "0") {
-		digitalWrite(Buzzer_Pin, LOW);
-	}
-	else if (command == "1") {
-		digitalWrite(Buzzer_Pin, HIGH);
-	}
-	else {
-		cout << "Invalid Command." << endl;
-	}
+    if (command == "0") {
+        digitalWrite(Buzzer_Pin, LOW);
+    }
+    else if (command == "1") {
+        digitalWrite(Buzzer_Pin, HIGH);
+    }
+    else {
+        cout << "Invalid Command." << endl;
+    }
 }
 

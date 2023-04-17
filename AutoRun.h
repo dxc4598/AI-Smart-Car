@@ -1,4 +1,5 @@
 # include <iostream>
+# include <signal.h>
 # include <unistd.h>
 # include "Motor.h"
 # include "Servo.h"
@@ -6,25 +7,28 @@
 # include "Ultrasonic.h"
 using namespace std;
 
-# define Servo_Min      30
+# define Servo_Min      10
 # define Servo_Max      90
-# define Min_Distance   50
-# define Max_Distance  200
+# define Min_Distance   20
+# define Max_Distance   40
 
 
 class AutoRun {
     public: 
-        AutoRun();
-
-        void stop()
+        void stop();
         void goStraight(int);
         void turnLeft();
         void turnRight();
-        void setServo();
-
+        void runServo();
+        void makeNoise(int);
+        void setUp();
+        void checkDistance();
+	
     private: 
         int L, M, R;
-
+        float stopCount;
+        bool isRunning = true;
+		
         Motor pwm;
         Servo pwmServo;
         Buzzer buzzer;
@@ -32,38 +36,38 @@ class AutoRun {
 };
 
 
-AutoRun::AutoRun() {
-}
-
-
 void AutoRun::stop() {
     pwm.setMotorModel(0, 0, 0, 0);
     pwmServo.setServoPWM("0", 90);
     sleep(1);
+    stopCount += 1;
 }
 
 
-void AutoRun::goStraight(int time) {
+void AutoRun::goStraight(int utime) {
     double t0, t1;
     struct timeval tv0, tv1;
-
+	
+    stopCount = 0;
     gettimeofday(&tv0, NULL);
     t0 = tv0.tv_sec + tv0.tv_usec * 0.000001;
+	
     while (true) {
         runServo();
-        pwm.setMotorModel(1200, 1200, 1200, 1200);
-
+        checkDistance();
+		
         gettimeofday(&tv1, NULL);
         t1 = tv1.tv_sec + tv1.tv_usec * 0.000001;
-        if ((t1 - t0) > time * 0.000001) {
+        if ((t1 - t0) > (utime * 0.000001 + stopCount * 1000000)) {
             stop();
             break;
         }
+    }
 }
 
 
 void AutoRun::turnLeft() {
-    makeNoise(500000);
+    makeNoise(250000);
     pwm.setMotorModel(-1500, -1500, 2000, 2000);
     sleep(1);
     stop();
@@ -71,49 +75,96 @@ void AutoRun::turnLeft() {
 
 
 void AutoRun::turnRight() {
-    makeNoise(500000);
+    makeNoise(250000);
     pwm.setMotorModel(2000, 2000, -1500, -1500);
     sleep(1);
 }
 
 
 void AutoRun::runServo() {
-    for (int i = Servo_Min; i <= Servo_Max; i++) {
-        pwm.setServoPWM("0", i);
-        usleep(10000);
-    }
-    for (int i = Servo_Max; i >= Servo_Min; i--) {
-        pwm.setServoPWM("0", i);
-        usleep(10000);
+/*	
+    pwmServo.setServoPWM("0", Servo_Min);
+    L = ultrasonic.getDistance();
+    cout << "Left: " << L << " cm" << endl; 
+    usleep(200000);
+	
+    pwmServo.setServoPWM("0", Servo_Max);
+    M = ultrasonic.getDistance();
+    cout << "Middle: " << M << " cm" << endl; 
+    usleep(200000);
+*/
+    for (int i = 0; i < 91; i += 90) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+		
+        if (i == 0) {
+            L = ultrasonic.getDistance();
+            cout << "Left: " << L << " cm" << endl; 
+        }
+        else if (i == 90) {
+            M = ultrasonic.getDistance();
+            cout << "Middle: " << M << " cm" << endl; 
+        }
     }
 }
 
 
-void AutoRun::makeNoise(int noise_time) {
+void AutoRun::makeNoise(int utime) {
     buzzer.makeSound("1");
-    usleep(noise_time);
+    usleep(utime);
     buzzer.makeSound("0");
 }
 
 
 void AutoRun::setUp() {
-    ultrasonic.setUp();
-    checkDistance();
-    makeNoise(500000);
+    for (int i = 30; i < 151; i += 60) {
+        pwmServo.setServoPWM("0", i);
+        usleep(200000);
+		
+        if (i == 30) {
+            L = ultrasonic.getDistance();
+            cout << "Left: " << L << " cm" << endl; 
+        }
+        else if (i == 90) {
+            M = ultrasonic.getDistance();
+            cout << "Middle: " << M << " cm" << endl; 
+        }
+        else {
+            R = ultrasonic.getDistance();
+            cout << "Right: " << R << " cm" << endl; 
+        }
+    }
+	
+    cout << "Smart Car has Set Up." << endl;
+    cout << "-------------------------------" << endl;
+//  makeNoise(500000);
 }
 
 
 void AutoRun::checkDistance() {
-    if (L < Min_Distance) {
-        cout << "Left Side is too Close." << endl;
+    if (M < Min_Distance) {
         stop();
-    }
-    else if (M < Min_Distance) {
         cout << "Middle Side is too Close." << endl;
-        stop();
     }
-    else if (R < Min_Distance) {
-        cout << "Right Side is too Close." << endl;
-        stop();
+    else if (L < Min_Distance) {
+        cout << "L is too close." << endl;
+        pwm.setMotorModel(2000, 2000, -500, -500);
+        usleep(700000);
+        pwm.setMotorModel(-500, -500, 2000, 2000);
+        usleep(700000);
+        pwm.setMotorModel(0, 0, 0, 0);
+        stopCount += 0.5;
+    }
+    else if (L > Max_Distance) {
+        cout << "L is too far." << endl;
+        pwm.setMotorModel(-500, -500, 2000, 2000);
+        usleep(700000);
+        pwm.setMotorModel(2000, 2000, -500, -500);
+        usleep(700000);
+        pwm.setMotorModel(0, 0, 0, 0);
+        stopCount += 0.5;
+    }
+    else {
+        pwm.setMotorModel(600, 600, 600, 600);
     }
 }
