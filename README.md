@@ -179,12 +179,12 @@ In addition, we also considered the situation of lane intrusion. When vehicles o
 4. Raspberry Pi OS
 
 ## 7. project contributors
-| NAME | GUID | GITHUB |
-| :----: | :----: | :----: |
-| Qiushi Feng | 2785563F | https://github.com/dxc4598 |
-| Chung-Chun Kao | 2721714K | https://github.com/DicksonKao |
-| Bin Lou | 2785471L |  |
-| Chen Che | 2729749C |  |
+| NAME | GUID | GITHUB | RESPONSIBILITY |
+| :----: | :----: | :----: | :----: |
+| Qiushi Feng | 2785563F | https://github.com/dxc4598 | buzzer, ultrasonic, autorun, googlemap |
+| Chung-Chun Kao | 2721714K | https://github.com/DicksonKao | PCA9685, motor, servo, thread control |
+| Bin Lou | 2785471L | https://github.com/Robin1678 | social media, promotion |
+| Chen Che | 2729749C | https://github.com/KapitaenCC | README, Unit test |
 <br/>
 
 **Real-Time Embedded Programming Course Work**
