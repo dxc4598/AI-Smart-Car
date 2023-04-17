@@ -1,0 +1,13 @@
+go-straight
+41
+turn-left
+65
+turn-right
+203
+go-straight
+212
+turn-right
+196
+turn-right
+81
+stop
