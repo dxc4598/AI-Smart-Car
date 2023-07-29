@@ -2,7 +2,7 @@
  * This file defines some functions related with PCA9685.
  */
 #include "dev_pca9685.h"
-#include <i2c/smbus.h>
+#include "libs/bcm2835_gpio/bcm2835.h"
 
 using namespace std;
 
@@ -16,28 +16,19 @@ using namespace std;
 
 PCA9685::PCA9685(void)
 {
-    /*Open I2C device file*/
-    snprintf(filename, sizeof(filename), "/dev/i2c-%d", adapter_nr);
-    file = open(filename, O_RDWR);
-
-    /*Check I2C device file*/
-    cout << "File Route: " << filename << endl;
-	
-	if (file < 0) {
-		cout << "File Open Failed." << endl;
-		exit(EXIT_FAILURE);
-	} 
-	else {
-		cout << "File Open Successed." << endl;
-	}
-	
-	if (ioctl(file, I2C_SLAVE, address) < 0) {
-        cout << "Set ioctl Failed." << endl;
-        exit(EXIT_FAILURE);
+    /*IO init*/
+    if(! bcm2835_init()){
+        cout << "bcm2835_init failed. Are you running as root??" << endl;
     }
-    else {
-    	cout << "Set ioctl Successed." << endl;
+
+	/*I2C begin*/
+	if (! bcm2835_i2c_begin()){
+		cout << "bcm2835_i2c_begin failed. Are you running as root??" << endl;
 	}
+
+	/*I2C setting*/
+	bcm2835_i2c_setSlaveAddress(0x40);
+    bcm2835_i2c_setClockDivider(0x5dc); /*166KHz*/
 }
 
 PCA9685::~ PCA9685(void)
@@ -45,14 +36,20 @@ PCA9685::~ PCA9685(void)
     close(filename);
 }
 
-void PCA9685::write(int reg, int value)
+void PCA9685::write(uint8_t reg, uint8_t value)
 {
-    i2c_smbus_write_byte_data(file, reg, value);
+	char write_data[2];
+
+	write_data[0] = reg;
+	write_data[1] = value;
+    bcm2835_i2c_write(write_data, 2);
 }
 
-int PCA9685::read(int reg)
+uint8_t PCA9685::read(uint8_t reg)
 {
-    return i2c_smbus_read_byte_data(file, reg);
+	uint8_t read_data;
+	bcm2835_i2c_read_register_rs(reg, (char *)& read_data, 1);
+    return read_data;
 }
 
 void PCA9685::setPWMFreq(int freq)
