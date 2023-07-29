@@ -1,6 +1,3 @@
-/******************************************************************************************************************
- * The purpose of this function is to drive the servo motor of the car
-*****************************************************************************************************************/
 #ifndef _DEV_SERVO_HPP_
 #define _DEV_SERVO_HPP_
 
@@ -12,7 +9,7 @@ class SERVO {
         SERVO();
         ~SERVO();
 
-        void setServoPWM(string, double, int);
+        void setServoPWM(uint8_t, double, int);
     private:
         PCA9685 pwmServo;
 }
