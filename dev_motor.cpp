@@ -1,5 +1,6 @@
 #include "dev_motor.h"
 
+MOTOR::MOTOR(void)
 {
 	pwm.setPWMFreq(50);
 }
@@ -8,7 +9,6 @@ MOTOR::~ MOTOR(void)
 {
 
 }
-
 
 void Motor::setDutyRange(int duty1, int duty2, int duty3, int duty4) 
 {
@@ -114,3 +114,5 @@ void Motor::setMotorModel(int duty1, int duty2, int duty3, int duty4)
     setRightUpperWheel(-duty3);
     setRightLowerWheel(-duty4);
 }
+
+
