@@ -10,7 +10,7 @@ class BUZZER {
 
         void makeSound(string);
     private:
-        
+
 }
 
 #endif
