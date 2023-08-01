@@ -114,5 +114,3 @@ void Motor::setMotorModel(int duty1, int duty2, int duty3, int duty4)
     setRightUpperWheel(-duty3);
     setRightLowerWheel(-duty4);
 }
-
-
