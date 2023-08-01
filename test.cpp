@@ -1,4 +1,3 @@
-
 #include "test.hpp"
 #include "libs/bcm2835_gpio/bcm2835.h"
 
