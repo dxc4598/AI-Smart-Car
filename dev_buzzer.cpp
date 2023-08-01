@@ -25,4 +25,3 @@ void BUZZER::makeSound(string command)
         bcm2835_gpio_write(BUZZER_PIN, HIGH);
     }
 }
-
