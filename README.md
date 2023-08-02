@@ -27,30 +27,18 @@ Our theme is smart cars, which use C++as the main programming language to write 
 - Navigation extraction
 - Buzzer reminder
 
-## 3. Experiments and Testing
-#### 3.1. Basic movements
+## 3. Function discription and Runing
+
+### 3.1. Representation
+#### 3.1.1. Basic movements
 <p align="center">
 
 ![basic movements](sample-images/mobility.png)
 </p>
 <br/>
-Use the testing program to move the car forward, backward, and rotate it 90 degrees left and right respectively.
+Enable the car to move forward, reverse, and turn 90 degree.
 
-```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
-
-# cd to workscape
-cd ./AI-Smart-Car
-
-# write code
-g++ testMotor.cpp -li2c -o motor.out
-
-# run testMotor
-./motor.out
-```
-
-#### 3.2. Obstacle avoidance
+#### 3.1.2. Obstacle avoidance
 <p align="center">
  
 ![obstacle avoidance](sample-images/obstacle.png)
@@ -58,21 +46,7 @@ g++ testMotor.cpp -li2c -o motor.out
 <br/>
 Place the car on the designated route, place some obstacles along the route, and control the car to travel along the route. It can be observed that the car scans the objects in front of it through a servo motor driven ultrasonic sensor while driving, and avoids obstacles during the process, allowing the car to travel safely.
 
-```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
-
-# cd to workscape
-cd ./AI-Smart-Car
-
-# write code
-g++ testUltrasonic.cpp -li2c -lwiringPi -o ultrasonic.out
-
-# run testUltrasonic
-./ultrasonic.out
-```
-
-#### 3.3. Distance tracking
+#### 3.1.3. Distance tracking
 <p align="center">
 
 ![Distance tracking](sample-images/distance.png)
@@ -80,77 +54,45 @@ g++ testUltrasonic.cpp -li2c -lwiringPi -o ultrasonic.out
 <br/>
 During the driving process of the vehicle, the sensor will first sense the distance between one side of the wall and maintain it within the set distance. When there is a lane intrusion obstacle, the car can avoid it and still maintain the distance. When the obstacle disappears, the car will also remain the same as before. At the same time, when an unavoidable obstacle appears in front of the car, the car will stop.
 
-```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
 
-# cd to workscape
-cd ./AI-Smart-Car
-
-# write code
-g++ testAutoRun.cpp -li2c -lwiringPi -lpthread -o autorun.out
-
-# run testAutoRun
-./autorun.out
-```
-
-#### 3.4. Ultrasonic sensor
+#### 3.1.4. Ultrasonic sensor
 <p align="center">
 
 ![ultrasonic sensor](sample-images/ultrasonic.png)
 <br/>
 Ultrasonic sensors can measure the distance between objects in front and vehicles. In the experimental video, we can measure the precise distance by placing our hand in front of the sensor.
 
-```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
 
-# cd to workscape
-cd ./AI-Smart-Car
-
-# write code
-g++ testDistance.cpp -li2c -lwiringPi -o distance.out
-
-# run testDistance
-./distance.out
-```
-
-#### 3.5. Servo motors
+#### 3.1.5. Servo motors
 <p align="center">
 
 ![servo motors](sample-images/servo.png)
 <br/>
 In our smart car, the ultrasonic sensor is dynamically controlled by two servo motors. Once we create a coordinate system for the vehicle, we can better write motor drive strategies. The two motors rotate along the z-axis and x-axis respectively, allowing the ultrasonic sensor to scan objects in front of the vehicle.
 
-```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
 
-# cd to workscape
-cd ./AI-Smart-Car
-
-# write code
-g++ testServo.cpp -li2c -o servo.out
-
-# run testServo
-./servo.out
-```
-
-#### 3.6. Buzzer reminder
+#### 3.1.6. Buzzer reminder
 We set a 3-second test buzzer reminder
 
+### 3.2. Runing
+(1) Install lib curl
 ```
-# g++ for test
-gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1)
+sudo apt-get install curl
+```
 
-# cd to workscape
-cd ./AI-Smart-Car
+(2) Install libcurl4-openssl-dev
+```
+sudo apt-get libcurl4-openssl-dev
+```
 
-# write code
-g++ testBuzzer.cpp -lwiringPi -o buzzer.out
+(3) Make Test project
+```
+make test_all
+```
 
-# run testBuzzer
-./buzzer.out
+(4) Make Application project
+```
+make app_all
 ```
 
 ## 4. value in reality
