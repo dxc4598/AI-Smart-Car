@@ -2,16 +2,11 @@
  * This file defines functions to control the behavior of the car.
  */
 
-#include "app_autoRun.h"
+#include "app_autoObstacleAvoidance.hpp"
 # include <sys/time.h>
 
-#define Servo_Min               10
-#define Servo_Max               90
-#define Min_Distance            20
-#define Max_Distance            40
 
-
-APP_AUTORUN::APP_AUTORUN(void)
+APP_AUTO_OBSTACLE_AVOIDANCE::APP_AUTO_OBSTACLE_AVOIDANCE(void)
 {
 	Buzzer = new BUZZER;
     Motor = new MOTOR;
@@ -19,7 +14,7 @@ APP_AUTORUN::APP_AUTORUN(void)
     Ultrasonic = new ULTRASONIC;
 }
 
-APP_AUTORUN::~ APP_AUTORUN(void)
+APP_AUTO_OBSTACLE_AVOIDANCE::~ APP_AUTO_OBSTACLE_AVOIDANCE(void)
 {
 	delete Buzzer;
 	delete Motor;
@@ -27,7 +22,7 @@ APP_AUTORUN::~ APP_AUTORUN(void)
 	delete Ultrasonic;
 }
 
-APP_AUTORUN::setUp(void)
+void APP_AUTO_OBSTACLE_AVOIDANCE::setUp(void)
 {
 	int L, M, R;
 	
@@ -52,7 +47,7 @@ APP_AUTORUN::setUp(void)
 	run_step = 0;
 }
 
-APP_AUTORUN::runMotor(int L, int M, int R)
+void APP_AUTO_OBSTACLE_AVOIDANCE::runMotor(int L, int M, int R)
 {
 	if (((L < 30) && (M < 30) && (R < 30)) || M < 30 ) {
         Motor->setMotorModel(-1450, -1450, -1450, -1450);
@@ -90,7 +85,7 @@ APP_AUTORUN::runMotor(int L, int M, int R)
     }
 }
 
-APP_AUTORUN::run(void)
+void APP_AUTO_OBSTACLE_AVOIDANCE::run(void)
 {
 	int L, M, R;
 
