@@ -1,5 +1,6 @@
 /*
- * This file defines frequently used keywords for other files.
+ * This header file defines some commom use key words and libraries.
+ * 
  */ 
 
 #ifndef _COMMON_HPP_
@@ -34,4 +35,6 @@ typedef int                                     int32_t
 #define MTRUE                                   0x55
 #define MFAILED                                 0x00
 
+
 #endif
+
