@@ -1,3 +1,7 @@
+/*
+ * This file is the main file for the car to run outdoor.
+ */
+
 #include "common.hpp"
 #include "app_autoRun_map.hpp"
 #include "app_map.hpp"
@@ -13,18 +17,17 @@ uint32_t Setup;
 
 void catchSIGINT(int signal);
 
-/*AutoRun Loop*/
+
 void autoRunLoop(void)
 {
     Autorun.BuzzerMng();
     Autorun.RefreshDistance();
     Autorun.MotorCtrlMng();
 
-    if(Setup < 2000)
+    if (Setup < 2000)
         Setup ++;
 }
 
-/*Main*/
 int main(int argc, char **argv)
 {
     int motor_go_straight_time;
@@ -33,45 +36,47 @@ int main(int argc, char **argv)
     StopProgram = 0;
     Setup = 0;
 
-    cout << "AutoRun program with map started." << endl;
+    cout << "Outdoor Program with Google Map Started." << endl;
 
-    /*Create Timer*/
+    /* Create Timer */
     SchedulerTimer.create(1, autoRunLoop, true);
 
-    /*Get direction*/
+    /* Get Directions */
     Map.getDirection();
 
-    /*Create signal*/
+    /* Get signal*/
     signal(SIGINT, catchSIGINT);
 
-    /*Open Map file*/
     ifstream file ("direction.txt");
 
-    /*Following the Map*/
-    if(file.is_open()) {
+    /* Follow the Map Directions */
+    if (file.is_open()) {
 		while (! file.eof()) {
-            if((Setup >= 2000) && (! Autorun.MotorCtrlCheckCmdBusy())){
+            if ((Setup >= 2000) && (! Autorun.MotorCtrlCheckCmdBusy())) {
                 file >> instruction;
                 
                 if (instruction == "stop") {
                     Autorun.BuzzerAlert(250);
                     Autorun.MotorCtrl(CMD_STOP);
                     break;
-                }else if (instruction == "go-straight") {
+                }
+				else if (instruction == "go-straight") {
                     file >> instruction;
                     motor_go_straight_time = (int) stoi(instruction) * 1612903 / 1000;
 
                     Autorun.BuzzerAlert(250);
                     Autorun.MotorCtrl(CMD_GO_STRAIGHT);
                     Autorun.MotorCtrlSetGoStraightTime(motor_go_straight_time);
-                }else if (instruction == "turn-left") {
+                }
+				else if (instruction == "turn-left") {
                     file >> instruction;
                     motor_go_straight_time = (int) stoi(instruction) * 1612903 / 1000;
 
                     Autorun.BuzzerAlert(250);
                     Autorun.MotorCtrl(CMD_TRUN_LEFT);
                     Autorun.MotorCtrlSetGoStraightTime(motor_go_straight_time);
-                }else if (instruction == "turn-right") {
+				}
+				else if (instruction == "turn-right") {
                     file >> instruction;
                     motor_go_straight_time = (int) stoi(instruction) * 1612903 / 1000;
 
@@ -83,10 +88,11 @@ int main(int argc, char **argv)
 
             SchedulerTimer.update();
 
-            if(StopProgram){
+            if (StopProgram) {
                 StopProgram = 0;
                 Autorun.MotorCtrl(CMD_STOP);
-                while(Autorun.MotorCtrlCheckCmdBusy()); /*Wait motor stop*/
+                
+                while (Autorun.MotorCtrlCheckCmdBusy());
                 break;
             }
  		}
@@ -95,11 +101,13 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/*Ctrl + C to exit testing*/
+/*Ctrl + c to Exit */
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c Pressed, end program now..." << endl;
+		cout << "Ctrl + c Pressed, End Program Now..." << endl;
+		
         StopProgram = 0x55;
+        exit(EXIT_SUCCESS);
 	}
 }
 

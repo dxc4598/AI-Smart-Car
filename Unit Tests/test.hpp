@@ -1,13 +1,16 @@
+/*
+ * This file defines functions for testing.
+ */
+
 #ifndef _TEST_HPP_
 #define _TEST_HPP_
 
-#include "common.h"
+#include "common.hpp"
 #include "dev_buzzer.hpp"
 #include "dev_motor.hpp"
 #include "dev_pca9685.hpp"
 #include "dev_servo.hpp"
 #include "dev_ultrasonic.hpp"
-
 
 
 class TEST {

@@ -1,0 +1,5 @@
+Note: 
+
+All codes in libs folder except in timer are NOT part of our implementation, these codes are open sources from GitHub or Internet.
+
+All codes in timer folder are edited from open sources from GitHub.

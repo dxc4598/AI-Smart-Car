@@ -1,101 +1,103 @@
+/*
+ * This file is the main file for testing.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <signal.h>
-#include "common.h"
+#include "common.hpp"
 #include "test.hpp"
 #include "\libs\timer\timer.hpp"
-
 using namespace std;
 
 TEST test;
 Timer SchedulerTimer;
 
-/*CMD parse*/
+/* CMD Parse */
 int comParse(int argc, char **argv)
 {
-    if((argc > 1) || (argv[0][0] != '-')){
-        cout << "Invalid command line argument." << endl;
+    if ((argc > 1) || (argv[0][0] != '-')) {
+        cout << "Invalid Command Line Argument." << endl;
         return -1;
-    }else{
-        swtich(argv[0][1]){
+    }
+	else {
+        switch(argv[0][1]) {
             case 'a' :
-                cout << "Start PCA9685 & I2C test." << endl;
+                cout << "Start PCA9685 Test." << endl;
                 test.PCA9685_testInit();
                 break;
             case 'b' :
-                cout << "Start Buzzer test." << endl;
+                cout << "Start Buzzer Test." << endl;
                 test.Buzzer_testInit();
                 break;
             case 'c' :
-                cout << "Start Motor test." << endl;
+                cout << "Start Motor Test." << endl;
                 test.Motor_testInit();
                 break;
             case 'd' :
-                cout << "Start Servo test." << endl;
+                cout << "Start Servo Test." << endl;
                 test.Servo_testInit();
                 break;
             case 'e' :
-                cout << "Start Ultrasonic test." << endl;
+                cout << "Start Ultrasonic Test." << endl;
                 test.Ultrasonic_testInit();
             default :
-                cout << "Invalid command line argument." << endl;
+                cout << "Invalid Command Line Argument." << endl;
                 return -1;
         }
     }
 }
 
-/*Timer Callback*/
+/* Timer Callback */
 void MainLoop(void)
 {
     static uint8_t timeSecCnter = 0;
 
-    swtich(argv[0][1]){
+    switch(argv[0][1]) {
         case 'a' :
-            if(timeSecCnter == 99)
+            if (timeSecCnter == 99)
                 test.PCA9685_test();
             break;
         case 'b' :
-            if(timeSecCnter == 99)
+            if (timeSecCnter == 99)
                 test.Buzzer_test();
             break;
         case 'c' :
-            if(timeSecCnter == 99)
+            if (timeSecCnter == 99)
                 test.Motor_test();
             break;
         case 'd' :
             test.Servo_test();
             break;
         case 'e' :
-            if(timeSecCnter == 99)
+            if (timeSecCnter == 99)
                 test.Ultrasonic_test();
             break;
         default :
             break;
     }
 
-    if(timeSecCnter < 99)
+    if (timeSecCnter < 99)
         timeSecCnter ++;
     else
         timeSecCnter = 0;
 }
 
-/*Main*/
 int main(int argc, char **argv)
 {
-    cout << "Test program running..." << endl;
+    cout << "Test Program Running..." << endl;
 
-    /*Get command and execute*/
+    /* Get Command and Execute */
     comParse(argc, argv);
 
-    /*Create timer*/
+    /* Create Timer */
     SchedulerTimer.every(10, MainLoop, true);
 
-    /*Create signal*/
+    /* Get Signal */
     signal(SIGINT, catchSIGINT);
 
-    /*Infinite loop*/
     while(1){
         SchedulerTimer.update();    
     }
@@ -103,14 +105,11 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/*Ctrl + C to exit testing*/
+/*Ctrl + c to Exit */
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c Pressed, end program now..." << endl;
+		cout << "Ctrl + c Pressed, End Program Now..." << endl;
         exit(EXIT_SUCCESS);
 	}
 }
-
-
-
 

@@ -1,6 +1,9 @@
+/*
+ * This file is the main file for the car to run indoor.
+ */
+
 #include "common.hpp"
 #include "app_autoObstacleAvoidance.hpp"
-#include "app_map.hpp"
 #include "libs/timer/timer.hpp"
 using namespace std;
 
@@ -13,38 +16,33 @@ void catchSIGINT(int signal);
 
 void MainLoop(void)
 {
-    string instruction;
-	ifstream file ("direction.txt");
-	
 	Autorun.run();
 }
 
 int main(int argc, char **argv)
 {
-    cout << "AutoRun program started." << endl;
-    /*Init*/
+    cout << "Indoor Program Started." << endl;
+    
+    /* Initialize */
     Autorun.setUp();
     
-    /*Get direction*/
-    Map.getDirection();
-    
-    /*Create timer*/
+    /* Create Timer */
     SchedulerTimer.every(200, MainLoop, true);
     
-    /*Create signal*/
+    /* Get Signal */
     signal(SIGINT, catchSIGINT);
     
-    /*Infinite loop*/
-    while(1){
+    while(1) {
         SchedulerTimer.update();    
     }
+    
     return 0;
 }
 
-/*Ctrl + C to exit testing*/
+/* Ctrl + c to Exit */
 void catchSIGINT(int signal) {
 	if (signal == SIGINT) {
-		cout << "Ctrl + c Pressed, end program now..." << endl;
+		cout << "Ctrl + c Pressed, End Program Now..." << endl;
         exit(EXIT_SUCCESS);
 	}
 }

@@ -5,7 +5,7 @@
 #ifndef _DEV_BUZZER_HPP_
 #define _DEV_BUZZER_HPP_
 
-#include "common.h"
+#include "common.hpp"
 
 
 class BUZZER {
@@ -13,7 +13,7 @@ class BUZZER {
         BUZZER();
         ~BUZZER();
 
-        void makeSound(string);
+        void control(uint8_t);
     private:
 }
 

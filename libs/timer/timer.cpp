@@ -1,14 +1,8 @@
-/******************************************************************************************************************
- * File name      : timer
- * Description    : Timer
- * Author         : 
- * Create Date    : 2023-07-21
- * Modify history : 
- * 
- * 
- * 
-*****************************************************************************************************************/
-#include "timer.h"
+/*
+ * This file defines timer functions for other files.
+ */
+ 
+#include "timer.hpp"
 
 #include <stdio.h>
 #include <time.h>
@@ -17,7 +11,7 @@
 #include <chrono>
 #include <ctime>
 
-/****************************************************************************************************************/
+
 TIMER::TIMER(void)
 {
 
@@ -28,20 +22,18 @@ TIMER::~ TIMER(void)
 
 }
 
-/****************************************************************************************************************/
-/*period: milliseconds*/
 void TIMER::create(unsigned long period, void (*callback)(),bool start)
 {
 	struct timeval tv;
 
 	gettimeofday (&tv, NULL) ;
-    this->epochMilli = (uint64_t)tv.tv_sec * (uint64_t)1000    + (uint64_t)(tv.tv_usec / 1000) ;
-    this->epochMicro = (uint64_t)tv.tv_sec * (uint64_t)1000000 + (uint64_t)(tv.tv_usec) ;
+    this -> epochMilli = (uint64_t)tv.tv_sec * (uint64_t)1000    + (uint64_t)(tv.tv_usec / 1000) ;
+    this -> epochMicro = (uint64_t)tv.tv_sec * (uint64_t)1000000 + (uint64_t)(tv.tv_usec) ;
 	
-	this->period = period;
-	this->callback = callback;
-	this->lastEventTime = millis();
-	this->is_working = start;
+	this -> period = period;
+	this -> callback = callback;
+	this -> lastEventTime = millis();
+	this -> is_working = start;
 }
 
 void TIMER::setPeriod(unsigned long period)
@@ -80,8 +72,4 @@ void TIMER::update()
 		}
     }
 }
-
-
-
-
 

@@ -1,14 +1,17 @@
+/* 
+ * This file defines functions to control the outdoor behavior of the car.
+ */
+
 #ifndef _APP_AUTORUN_MAP_HPP_
 #define _APP_AUTORUN_MAP_HPP_
 
 #include "common.hpp"
 #include "dev_buzzer.hpp"
 #include "dev_motor.hpp"
-#include "dev_pca9685.hpp"
 #include "dev_servo.hpp"
 #include "dev_ultrasonic.hpp"
 
-/*Motor Control*/
+/* Motor Control */
 typedef enum _tagMOTOR_CTRL_CMD
 {
     CMD_INVALID                     = 0x00,
@@ -18,7 +21,7 @@ typedef enum _tagMOTOR_CTRL_CMD
     CMD_GO_STRAIGHT                 = 0x44
 }MOTOR_CTRL_CMD;
 
-/*Motor Run State*/
+/* Motor State */
 typedef enum _tagMOTOR_RUN_STATE
 {
     ST_STOP                         = 0x00,
@@ -38,11 +41,12 @@ class APP_AUTORUN_MAP {
     public :
         APP_AUTORUN_MAP();
         ~APP_AUTORUN_MAP();
-
+        
+        uint8_t MotorCtrlCheckCmdBusy();
+        
         void BuzzerAlert(uint32_t);
         void BuzzerMng();
         void MotorCtrl(MOTOR_CTRL_CMD);
-        uint8_t MotorCtrlCheckCmdBusy();
         void MotorCtrlSetGoStraightTime(uint32_t);
         void MotorCtrlMng();
         void RefreshDistance();
@@ -51,15 +55,17 @@ class APP_AUTORUN_MAP {
         MOTOR *Motor;
         SERVO *Servo;
         ULTRASONIC *Ultrasonic;
-
-        uint16_t BuzzerOn;
+        
         MOTOR_CTRL_CMD MotorCtrlCmd;
         MOTOR_RUN_STATE MotorCtrlState;
+        
+    	int L, M, R;
+        uint16_t BuzzerOn;
         uint32_t MotorCtrlGoStraightTime;
         uint32_t MotorCtrlTimeCnt;
-        int L, M, R;
 
         void MotorCtrlGetState();
 };
 
 #endif
+

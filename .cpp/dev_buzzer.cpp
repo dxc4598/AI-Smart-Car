@@ -2,7 +2,7 @@
  * This file defines functions to control the buzzer of the car.
  */
 
-#include "dev_buzzer.h"
+#include "dev_buzzer.hpp"
 #include "libs/bcm2835_gpio/bcm2835.h"
 
 #define BUZZER_PIN            17
@@ -22,13 +22,12 @@ BUZZER::~ BUZZER(void)
 
 }
 
-/* Assign Command to Control the Buzzer */
-void BUZZER::makeSound(string command) 
+/* Control the Buzzer */
+void BUZZER::control(uint8_t enable) 
 {
-    if (command == "0") {
+    if (enable == 0) {
         bcm2835_gpio_write(BUZZER_PIN, LOW);
-    }
-	else if (command == "1") {
+    }else {
         bcm2835_gpio_write(BUZZER_PIN, HIGH);
     }
 }
