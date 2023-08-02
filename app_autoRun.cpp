@@ -1,3 +1,7 @@
+/* 
+ * This file defines functions to control the behavior of the car.
+ */
+
 #include "app_autoRun.h"
 # include <sys/time.h>
 
@@ -60,28 +64,32 @@ APP_AUTORUN::runMotor(int L, int M, int R)
         else {
             Motor->setMotorModel(-1450, -1450, 1450, 1450);
         }
-    }else if ((L < 30) && (M < 30)) {
+    }
+	else if ((L < 30) && (M < 30)) {
         Motor->setMotorModel(1500, 1500, -1500, -1500);
-    }else if ((R < 30) && (M < 30)) {
+    }
+	else if ((R < 30) && (M < 30)) {
         Motor->setMotorModel(-1500, -1500, 1500, 1500);
-    }else if (L < 20) {
+    }
+	else if (L < 20) {
         Motor->setMotorModel(2000, 2000, -500, -500);
 		
         if (L < 10) {
             Motor->setMotorModel(1500, 1500, -1000, -1000);
         }
-    }else if (R < 20) {
+    }
+	else if (R < 20) {
         Motor->setMotorModel(-500, -500, 2000, 2000);
 		
         if (R < 10) {
             Motor->setMotorModel(-1500, -1500, 1500, 1500);
         }
-    } else {
+    }
+	else {
         Motor->setMotorModel(600, 600, 600, 600);
     }
 }
 
-/*Run freq = 200ms*/
 APP_AUTORUN::run(void)
 {
 	int L, M, R;

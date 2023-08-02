@@ -1,8 +1,13 @@
+/* 
+ * This file defines functions to control the camera of the car.
+ */
+
 #ifndef _DEV_SERVO_HPP_
 #define _DEV_SERVO_HPP_
 
 #include "common.h"
 #include "dev_pca9685.h"
+
 
 class SERVO {
     public :
@@ -15,3 +20,4 @@ class SERVO {
 }
 
 #endif
+

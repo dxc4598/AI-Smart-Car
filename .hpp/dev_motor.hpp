@@ -1,11 +1,16 @@
+/* 
+ * This file defines functions to control the wheels of the car.
+ */
+
 #ifndef _DEV_MOTOR_HPP_
 #define _DEV_MOTOR_HPP_
 
 #include "common.h"
 #include "dev_pca9685.h"
 
+
 class MOTOR {
-    public :
+    public:
         MOTOR();
         ~MOTOR();
 
@@ -22,3 +27,4 @@ class MOTOR {
 }
 
 #endif
+

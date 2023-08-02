@@ -1,10 +1,13 @@
+/* 
+ * This file defines functions to control the behavior of the car.
+ */
+
 #ifndef _APP_AUTORUN_HPP_
 #define _APP_AUTORUN_HPP_
 
 #include "common.h"
 #include "dev_buzzer.hpp"
 #include "dev_motor.hpp"
-#include "dev_pca9685.hpp"
 #include "dev_servo.hpp"
 #include "dev_ultrasonic.hpp"
 

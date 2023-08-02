@@ -1,25 +1,29 @@
+/* 
+ * This file defines functions to control the ultrasonic of the car.
+ */
+
 #include "dev_ultrasonic.h"
 #include "libs/bcm2835_gpio/bcm2835.h"
 # include <sys/time.h>
 # include <algorithm>
-
 using namespace std;
 
 # define Echo_Pin            22
 # define Trigger_Pin         27
 # define MAX_TIMEOUT   300 * 60
 
+
 ULTRASONIC::ULTRASONIC(void)
 {
-	/*IO init*/
+	/* Initialize bcm2835 */
     if(! bcm2835_init()){
-        cout << "bcm2835_init failed. Are you running as root??" << endl;
+        cout << "bcm2835_init() Failed." << endl;
     }
 
-    /*Set Echo pin as input*/
+    /* Set Echo Pin as Input */
     bcm2835_gpio_fsel(Echo_Pin, BCM2835_GPIO_FSEL_INPT);
 
-    /*Set Trigger pin as output*/
+    /* Set Trigger Pin as Output */
     bcm2835_gpio_fsel(Trigger_Pin, BCM2835_GPIO_FSEL_OUTP);
 }
 
@@ -28,6 +32,7 @@ ULTRASONIC::~ ULTRASONIC(void)
 
 }
 
+/* Get the round-trip time of the pulse */
 int ULTRASONIC::pulseIn(int pin, int level, int timeout)
 {
     int pulse_time = 0;
@@ -64,6 +69,7 @@ int ULTRASONIC::pulseIn(int pin, int level, int timeout)
     return pulse_time;
 }
 
+/* Get the distance between the car and the obstacle */
 int ULTRASONIC::getDistance()
 {
     double distance[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
